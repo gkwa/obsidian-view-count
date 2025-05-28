@@ -2,19 +2,19 @@ import { moment } from "obsidian"
 
 export const unixTimeMillisToDate = (unixTimeMillis: number) => {
   const unixTimeSeconds = unixTimeMillis / 1000
-  const normalTimestamp = moment.unix(unixTimeSeconds)
+  const normalTimestamp = (moment as any).unix(unixTimeSeconds)
   const formattedTimestamp = normalTimestamp.format("YYYY-MM-DD")
   return formattedTimestamp
 }
 
 export const dateToUnixTimeMillis = (date: string) => {
-  const normalTimestamp = moment(date)
+  const normalTimestamp = (moment as any)(date)
   const unixTimeMillis = normalTimestamp.valueOf()
   return unixTimeMillis
 }
 
 export const getStartOfMonthMillis = () => {
-  return moment().startOf("month").valueOf()
+  return (moment as any)().startOf("month").valueOf()
 }
 
 /**
@@ -23,13 +23,13 @@ export const getStartOfMonthMillis = () => {
  */
 export const getStartOfWeekMillis = (isoWeek: boolean) => {
   if (isoWeek) {
-    return moment().startOf("isoWeek").valueOf()
+    return (moment as any)().startOf("isoWeek").valueOf()
   }
-  return moment().startOf("week").valueOf()
+  return (moment as any)().startOf("week").valueOf()
 }
 
 export const getStartOfTodayMillis = () => {
-  return moment().startOf("day").valueOf()
+  return (moment as any)().startOf("day").valueOf()
 }
 
 export const getStartOf31DaysAgoMillis = () => {
@@ -53,5 +53,5 @@ export const getStartOf3DaysAgoMillis = () => {
 }
 
 const getStartOfDaysMillis = (daysAgo: number) => {
-  return moment().subtract(daysAgo, "days").startOf("day").valueOf()
+  return (moment as any)().subtract(daysAgo, "days").startOf("day").valueOf()
 }
