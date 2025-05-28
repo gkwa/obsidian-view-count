@@ -1,3 +1,3 @@
-export type PluginEvent = "refresh-item-view";
+export type PluginEvent = "refresh-item-view"
 
-export type EventCallback = (...data: any[]) => void;
+export type EventCallback = (...data: any[]) => void

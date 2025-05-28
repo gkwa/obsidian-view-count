@@ -1,11 +1,11 @@
-import { TFile } from "obsidian";
+import { TFile } from "obsidian"
 
 export interface MostViewedRenderItem {
-	file: TFile;
-	viewCount: number;
+  file: TFile
+  viewCount: number
 }
 
 export interface TrendingRenderItem {
-	file: TFile;
-	timesOpened: number;
+  file: TFile
+  timesOpened: number
 }
