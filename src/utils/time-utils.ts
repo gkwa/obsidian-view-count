@@ -1,4 +1,5 @@
-import moment from "moment"
+// Use Obsidian's moment but with proper typing
+declare const moment: any
 
 export const unixTimeMillisToDate = (unixTimeMillis: number) => {
   const unixTimeSeconds = unixTimeMillis / 1000
