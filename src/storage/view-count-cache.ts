@@ -99,43 +99,38 @@ export default class ViewCountCache {
 
       // Read current state from filesystem first to handle sync conflicts
       const exists = await this.app.vault.adapter.exists(path)
-      if (!exists) {
-        const data = stringifyEntries(this.entries)
-        await this.app.vault.adapter.write(path, data)
-        return
-      }
+      if (exists) {
+        const currentData = await this.app.vault.adapter.read(path)
+        const filesystemEntries = parseEntries<ViewCountEntry>(currentData)
 
-      const currentData = await this.app.vault.adapter.read(path)
-      const filesystemEntries = parseEntries<ViewCountEntry>(currentData)
+        // Merge by taking max counts for each file path
+        const merged = new Map<string, ViewCountEntry>()
 
-      // Merge by taking max counts for each file path
-      const merged = new Map<string, ViewCountEntry>()
-
-      // Start with filesystem entries
-      for (const entry of filesystemEntries) {
-        merged.set(entry.path, entry)
-      }
-
-      // Merge with memory entries, taking max values
-      for (const memoryEntry of this.entries) {
-        const fsEntry = merged.get(memoryEntry.path)
-        if (!fsEntry) {
-          merged.set(memoryEntry.path, memoryEntry)
-          continue
+        // Start with filesystem entries
+        for (const entry of filesystemEntries) {
+          merged.set(entry.path, entry)
         }
 
-        merged.set(memoryEntry.path, {
-          path: memoryEntry.path,
-          uniqueDaysOpened: Math.max(fsEntry.uniqueDaysOpened, memoryEntry.uniqueDaysOpened),
-          totalTimesOpened: Math.max(fsEntry.totalTimesOpened, memoryEntry.totalTimesOpened),
-          openLogs:
-            memoryEntry.openLogs.length > fsEntry.openLogs.length
-              ? memoryEntry.openLogs
-              : fsEntry.openLogs,
-        })
-      }
+        // Merge with memory entries, taking max values
+        for (const memoryEntry of this.entries) {
+          const fsEntry = merged.get(memoryEntry.path)
+          if (!fsEntry) {
+            merged.set(memoryEntry.path, memoryEntry)
+          } else {
+            merged.set(memoryEntry.path, {
+              path: memoryEntry.path,
+              uniqueDaysOpened: Math.max(fsEntry.uniqueDaysOpened, memoryEntry.uniqueDaysOpened),
+              totalTimesOpened: Math.max(fsEntry.totalTimesOpened, memoryEntry.totalTimesOpened),
+              openLogs:
+                memoryEntry.openLogs.length > fsEntry.openLogs.length
+                  ? memoryEntry.openLogs
+                  : fsEntry.openLogs,
+            })
+          }
+        }
 
-      this.entries = Array.from(merged.values())
+        this.entries = Array.from(merged.values())
+      }
 
       const data = stringifyEntries(this.entries)
       await this.app.vault.adapter.write(path, data)
