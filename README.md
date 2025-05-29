@@ -6,13 +6,13 @@ View count is an [Obsidian.md](https://obsidian.md) plugin for desktop and mobil
 
 ## Table of contents
 
--   [Videos](#videos)
--   [Installation](#installation)
--   [Usage](#usage)
--   [Dataview](#dataview)
--   [API](#api)
--   [Settings](#settings)
--   [License](#license)
+- [Videos](#videos)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Dataview](#dataview)
+- [API](#api)
+- [Settings](#settings)
+- [License](#license)
 
 ## Videos
 
@@ -63,9 +63,9 @@ If the view is not open, you may run **Open view count view** from the command p
 
 There are 2 different lists within the view count:
 
--   A list of the most viewed notes in your vault sorted in descending order. Click on the eye icon to see this list.
+- A list of the most viewed notes in your vault sorted in descending order. Click on the eye icon to see this list.
 
--   A list of the notes with the highest trending weight sorted in descending order. Click on the trending icon to see this list.
+- A list of the notes with the highest trending weight sorted in descending order. Click on the trending icon to see this list.
 
 ## Dataview
 
@@ -125,23 +125,23 @@ To start, you need to access the view count cache.
 
 ```javascript
 //Get the view count plugin
-const plugin = this.app.plugins.plugins["view-count"];
+const plugin = this.app.plugins.plugins["view-count"]
 
 //Get the view count cache
-const cache = plugin.viewCountCache;
+const cache = plugin.viewCountCache
 ```
 
 Then you can use the cache to get a view count or trending weight.
 
 ```javascript
 //Get the trending weight
-const weight = cache.getTrendingWeight(file, timePeriod);
-console.log(weight);
+const weight = cache.getTrendingWeight(file, timePeriod)
+console.log(weight)
 //output: 22
 
 //Get the view count
-const viewCount = cache.getViewCount(file);
-console.log(viewCount);
+const viewCount = cache.getViewCount(file)
+console.log(viewCount)
 //output: 5
 ```
 

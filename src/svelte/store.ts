@@ -1,5 +1,5 @@
-import { writable } from "svelte/store";
-import ViewCountPlugin from "src/main";
+import { writable } from "svelte/store"
+import ViewCountPlugin from "src/main"
 
-const plugin = writable<ViewCountPlugin>();
-export default { plugin };
+const plugin = writable<ViewCountPlugin>()
+export default { plugin }
